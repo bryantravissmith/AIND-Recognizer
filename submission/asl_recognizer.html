@@ -14878,7 +14878,8 @@ Training complete for JOHN with 2 states with time 16.484274847025517 seconds
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Question 2:</strong>  Compare and contrast the possible advantages and disadvantages of the various model selectors implemented.</p>
-<p><strong>Answer 2:</strong></p>
+<p><strong>Answer 2:</strong>
+The advantage of using cross validation is that it reduces overfitting by picking parameters that generalize the best out of sample.  Using Bayesian Information Criteria instead of Maximum Likelihood Estiamtion reduces the model complexity by requiring that the model perform significantly better if a model is going to be more complext.   Discrimiative Information Criteria is specific to HMMs and chooses the parameters/toplogy that allow it to best discrimination between the given class and all the other classes.   This method should produce better out of sample performance, but because of the multiple comparisions, takes longer and requires significantly more data to be valid.</p>
 
 </div>
 </div>

@@ -86,13 +86,18 @@ class SelectorBIC(ModelSelector):
                 bic = 0
                 for cv_train_idx, cv_test_idx in split_method.split(self.sequences):
                     try:
+                        X = np.concatenate(np.array(self.sequences)[cv_train_idx])
+                        l = np.array(self.lengths)[cv_train_idx]
                         model = GaussianHMM(n_components=n,
                                             covariance_type="diag",
                                             n_iter=1000,
                                             random_state=121,
                                             verbose=False)\
-                            .fit(np.concatenate(np.array(self.sequences)[cv_train_idx]), np.array(self.lengths)[cv_train_idx])
-                        bic += -2 * model.score(np.concatenate(np.array(self.sequences)[cv_test_idx]), np.array(self.lengths)[cv_test_idx]) + 2 * n * len(self.sequences[0]) * np.log(np.array(self.lengths)[cv_test_idx].sum())
+                            .fit(X, l)
+
+                        X_test = np.concatenate(np.array(self.sequences)[cv_test_idx])
+                        l_test = np.array(self.lengths)[cv_test_idx]
+                        bic += -2 * model.score(X_test, l_test) + 2 * n * len(self.sequences[0]) * np.log(np.array(self.lengths)[cv_test_idx].sum())
                         count += 1
                     except:
                         pass
@@ -136,13 +141,18 @@ class SelectorDIC(ModelSelector):
                 dic = 0
                 for cv_train_idx, cv_test_idx in split_method.split(self.sequences):
                     try:
+                         X = np.concatenate(np.array(self.sequences)[cv_train_idx])
+                        l = np.array(self.lengths)[cv_train_idx]
                         model = GaussianHMM(n_components=n,
                                             covariance_type="diag",
                                             n_iter=1000,
                                             random_state=121,
                                             verbose=False)\
-                            .fit(np.concatenate(np.array(self.sequences)[cv_train_idx]), np.array(self.lengths)[cv_train_idx])
-                        logl = model.score(np.concatenate(np.array(self.sequences)[cv_test_idx]), np.array(self.lengths)[cv_test_idx])
+                            .fit(X, l)
+
+                        X_test = np.concatenate(np.array(self.sequences)[cv_test_idx])
+                        l_test = np.array(self.lengths)[cv_test_idx]
+                        logl = model.score(X_test, l_test)
 
                         count_dl = 0
                         log_dl = 0
@@ -192,13 +202,18 @@ class SelectorCV(ModelSelector):
                 logl = 0
                 for cv_train_idx, cv_test_idx in split_method.split(self.sequences):
                     try:
+                        X = np.concatenate(np.array(self.sequences)[cv_train_idx])
+                        l = np.array(self.lengths)[cv_train_idx]
                         model = GaussianHMM(n_components=n,
                                             covariance_type="diag",
                                             n_iter=1000,
                                             random_state=121,
                                             verbose=False)\
-                            .fit(np.concatenate(np.array(self.sequences)[cv_train_idx]), np.array(self.lengths)[cv_train_idx])
-                        logl += model.score(np.concatenate(np.array(self.sequences)[cv_test_idx]), np.array(self.lengths)[cv_test_idx])
+                            .fit(X, l)
+
+                        X_test = np.concatenate(np.array(self.sequences)[cv_test_idx])
+                        l_test = np.array(self.lengths)[cv_test_idx]
+                        logl += model.score(X_test, l_test)
                         count += 1
                     except:
                         pass
